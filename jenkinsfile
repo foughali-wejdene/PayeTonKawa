@@ -17,11 +17,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 sh 'flutter pub get'
-            }
-        }
-        stage('test') {
-            steps {
-                        sh 'flutter test'
+                sh 'flutter test'
             }
         }
 
