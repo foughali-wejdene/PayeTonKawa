@@ -10,9 +10,9 @@ pipeline {
             }
         }
          stage('clean') {
-                    steps {
-                        sh 'flutter clean'
-                    }
+            steps {
+                sh 'flutter clean'
+            }
         }
         stage('Build and Test') {
             steps {
