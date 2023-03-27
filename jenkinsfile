@@ -24,6 +24,12 @@ pipeline {
                    sh 'flutter test'
                    }
                 }
+        stage('package') {
+                steps {
+                    sh 'flutter build apk --release'
+                }
+        }
+
 
     }
 }
