@@ -21,7 +21,7 @@ pipeline {
         }
         stage('test') {
             steps {
-                dir('lib/'){
+                dir('test/'){
                     sh 'flutter test'
                }
             }
