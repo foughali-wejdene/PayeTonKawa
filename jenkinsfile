@@ -24,6 +24,24 @@ pipeline {
                         sh 'test'
                     }
         }
+        stage('dependencies') {
+            steps {
+                sh 'flutter pub get'
+            }
+        }
+        stage('test') {
+            steps {
+                dir('lib/'){
+                        sh 'flutter test'
+                    }
+            }
+        }
+
+        stage('package') {
+                steps {
+                    sh 'flutter build apk --release'
+                }
+        }
         
         stage('Build APK') {
             steps {
