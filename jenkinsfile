@@ -1,26 +1,29 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/foughali-wejdene/PayeTonKawa.git'
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/foughali-wejdene/PayeTonKawa.git']]])
             }
         }
-        stage('Build') {
+        
+        stage('Build and Test') {
             steps {
-                sh 'flutter packages get'
-                sh 'flutter build apk --release'
-            }
-        }
-        stage('Test') {
-            steps {
+                sh 'flutter pub get'
                 sh 'flutter test'
             }
         }
-        stage('Deploy') {
+        
+        stage('Build APK') {
             steps {
-                sh 'scp -r build/app/outputs/flutter-apk user@my-server:/path/to/deploy'
+                sh 'flutter build apk'
+            }
+            
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/*.apk', fingerprint: true
+                }
             }
         }
     }
