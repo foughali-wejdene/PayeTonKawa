@@ -9,7 +9,11 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/foughali-wejdene/PayeTonKawa.git']]])
             }
         }
-
+        stage('clean') {
+            steps {
+                sh 'flutter clean'
+            }
+        }
         stage('Build and Test') {
             steps {
                 sh 'flutter pub get'
