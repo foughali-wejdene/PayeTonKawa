@@ -1,22 +1,16 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'Feature/Login Screen/Login_Screen.dart';
-import 'main.dart';
-import 'package:mspr/main.dart';
+import 'package:mspr/Feature/Login%20Screen/Login_Screen.dart';
 
+import '../lib/main.dart';
+import '../lib/login_screen.dart';
 
 void main() {
-  testWidgets('MyApp displays LoginScreen', (WidgetTester tester) async {
+  testWidgets('Test de lancement de l\'application', (WidgetTester tester) async {
+    // Construire l'application
     await tester.pumpWidget(const MyApp());
 
+    // Vérifier que l'écran de connexion est affiché
     expect(find.byType(LoginScreen), findsOneWidget);
   });
 }
-
