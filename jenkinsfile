@@ -1,51 +1,27 @@
 pipeline {
     agent any
 
-    
-
-    stages{
-        stage('checkout') { 
+    stages {
+        stage('Checkout') {
             steps {
-                git branch:'develop',url:'https://github.com/foughali-wejdene/PayeTonKawa.git'
-                }
-
-
-        }
-
-        stage('clean') {
-                    steps {
-                        sh 'flutter clean'
-                    }
-        }
-
-        stage('dependencies') {
-            steps {
-                sh 'flutter pub get'
+                git branch: 'main', url: 'https://github.com/foughali-wejdene/PayeTonKawa.git'
             }
         }
-
-        stage('test') {
+        stage('Build') {
             steps {
-                dir('lib/'){
-                        sh 'flutter test'
-                    }
+                sh 'flutter packages get'
+                sh 'flutter build apk --release'
             }
         }
-
-        stage('package') {
-                steps {
-                    sh 'flutter build apk --release'
-                }
-        }
-
-        stage('archive') {
+        stage('Test') {
             steps {
-
-                sh 'mv build/app/outputs/flutter-apk/app-release.apk apk-payetonkawa-$BUILD_NUMBER.apk'
-                archiveArtifacts artifacts: 'apk-payetonkawa-*.apk', followSymlinks: false
-
+                sh 'flutter test'
             }
-         }
-
+        }
+        stage('Deploy') {
+            steps {
+                sh 'scp -r build/app/outputs/flutter-apk user@my-server:/path/to/deploy'
+            }
         }
     }
+}
