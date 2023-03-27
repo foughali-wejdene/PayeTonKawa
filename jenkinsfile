@@ -19,16 +19,6 @@ pipeline {
                 sh 'flutter pub get'
             }
         }
-         stage('test') {
-                    steps {
-                        sh 'test'
-                    }
-        }
-        stage('dependencies') {
-            steps {
-                sh 'flutter pub get'
-            }
-        }
         stage('test') {
             steps {
                 dir('lib/'){
@@ -43,16 +33,13 @@ pipeline {
                 }
         }
         
-        stage('Build APK') {
+        stage('archive') {
             steps {
-                sh 'flutter build apk'
+
+                sh 'mv build/app/outputs/flutter-apk/app-release.apk apk-payetonkawa-$BUILD_NUMBER.apk'
+                archiveArtifacts artifacts: 'apk-payetonkawa-*.apk', followSymlinks: false
+
             }
-            
-            post {
-                success {
-                    archiveArtifacts artifacts: '**/*.apk', fingerprint: true
-                }
-            }
-        }
+         }
     }
 }
